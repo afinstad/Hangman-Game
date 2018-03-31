@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hangman Game</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  
+  <script src="https://previews.123rf.com/images/aliencat/aliencat1208/aliencat120800001/14851930-smiling-sunshine.jpg" type="text/javascript"></script>
+</head>
+
+<body>
+  <div class="container">
+    <img id "=title-image" src="https://previews.123rf.com/images/aliencat/aliencat1208/aliencat120800001/14851930-smiling-sunshine.jpg" alt="name of image" />
+    <div class="row">
+      <div class="col-md-6 gameplay-colum">
+        <img id="youwin-image" src="https://t2.rbxcdn.com/86ab32ef26c58efad2af70cfa8b833b8" alt="nameofimage" />
+        <img id="gameover-image" src=: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmmFxsTRjN_YVoDbGWPgNgoBBtQeJxgx9MyeSDOMaL4unILFSg" alt="name of image" />
+        <h2 id="pressKeyTryAgain">Press Any Key to Try Again</h2>
+        <img id="hangmanImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzDJ2OJ-0SFwAtPSVnxQUNaQ5dFYEVOahz20TMEIrHMy5GN2L5" alt="image name" />
+      </div>
+      <div class="col-md-6 gameplay-column">
+        <h2>Press Any Key to Play!</h2>
+        <h4>Wins</h4>
+        <h5 id="totalWins"></h5>
+        <h4>Current Word</h4>
+        <h3 id="currentWord"></h3>
+        <h4>Guesses Remaining</h4>
+        <h3 id="guessLetters"></h3>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    resetGame();
+    updateDisplay();
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+//game logic exists here
+
+//word list
+
+var selectableWords = [
+    "sunshine",
+    "beach",
+    "swimming",
+    "sunburn",
+    "sandals",
+    "swimsuit",
+    "lemonade"
+
+];
+
+//Max. number of tries the player has. Constant will hold how many failed guesses a user gets. 
+const maxTries = 10;
+//Letters the player guessed. guessedLetters holds an array of unique letters that have already been guessed. 
+var guessedLetters = [];
+//Index of current word in the array
+var currentWordIndex;
+//Word being used. This is an array that stores the letters that were correctly guessed. 
+var guessingWord = [];
+//How many letters the player has left. This will start with the value of maxTries and go down from there with every wrong guess. 
+var remainingGuesses = 0;
+//Press to play again!
+var hasFinished = false;
+//Total wins 
+var wins = 0;
+
+//Game Sounds
+var keySound = new Audio('where sound is ');
+var winSound = new Audio('whereversoundis');
+var loseSound = new Audio(wheresoundmaybe);
+
+//Reset # of remaining tries
+function resetGame() {
+    remainingGuesses = maxTries;
+
+
+//Math.floor rounds the random number to the nearest whole number.This is to randomly select a number between 0 and the length of our selectableWords array. 
+currentWordIndex = Math.floor(Math.random() * (selectableWords.length));
+
+//Clear array
+guessedLetters = [];
+guessingWord = [];
+
+//Make sure that the image is cleared for a new game. Get an image link here. 
+document.getElementById("hangmanImage").src = "";
+
+//To build the guessing word
+for (var i = 0; i < selectableWords[currentWordIndex].length; i++) {
+    guessingWord.push("");
+}
+
+//game over and win images/text
+document.getElementById("pressKeyTryAgain").style.cssText = "display: none";
+document.getElementById("gameover-image").style.cssText = "display: none";
+document.getElementById("youwin-image").style.cssText = "display: none";
+
+//Display. puts new info into html placeholders for the game's display
+updateDisplay();
+
+};
+
+
+// Updates the display on the HTML page
+function updateDisplay() {
+    //TRY THIS INSTEAD var winImage = document.getElementById("youwin-image"); )
+
+    document.getElementById("totalWins").innerText = wins;
+    document.getElementById("currentWord").innerText - "";
+    for (var i = 0; i < guessingWord.length; i++) {
+        guessingWordText += guessingWord[i];
+    }
+
+    document.getElementById("currentWord").innerText += guessingWord[i]
+    document.getElementById("remainingGuesses").innerText += remainingGuesses;
+    document.getElementById("guessedLetters").innerText += guessedLetters;
+};
+
+//This functin takes a letter sn finds all instances of appearance in the string and replaces them in teh guess word. 
+function evaulateGuess(letter) {
+    //array to store positions of letters in a string
+    var positions = [];
+
+    //Loop through word finding all instances of guessed letter, store the indicies in an array
+    for (var i = 0; i < selectableWOrds[currentWordIndex].length; i++) {
+        if (selectableWords[currentWordIndex][i] === letter) {
+            position.push(i);
+        }
+    }
+
+    //if there are no indicies, remove a guess 
+    if (positions.length <= 0) {
+        remaningGuesses--;
+    } else {
+        //Loop through all indiciies and replace the '_' with a letter. 
+        for (var i = 0; i < positions.length; i++) {
+            guessingWord[positions[i]] = letter;
+
+        }
+    }
+};
+
+//Check for the win
+function checkWin() {
+    if (guessingWord.indexOf("_") === -1) {
+        document.getElementById("https://t2.rbxcdn.com/86ab32ef26c58efad2af70cfa8b833b8").style.cssText = "display: clock";
+        document.getElementById("pressKeyTryAgain").style.cssText = "display: block";
+        wins++;
+        winSound.play();
+        hasFinished = true;
+    }
+};
+
+// Checks for a loss
+function checkLoss() {
+    if (remainingGuesses <= 0) {
+        loseSound.play();
+        document.getElementById("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmmFxsTRjN_YVoDbGWPgNgoBBtQeJxgx9MyeSDOMaL4unILFSg").style.cssText = "display: block";
+        document.getElementById("pressKeyTryAgain").style.cssText = "display:block";
+        hasFinished = true;
+    }
+}
+if (remainingGuesses <= 0) {
+    document.getElementById("gameover-image").style.cssText = "display: block";
+    document.getElementById("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzDJ2OJ-0SFwAtPSVnxQUNaQ5dFYEVOahz20TMEIrHMy5GN2L5").style.cssText = "display: block";
+    hasFinished = true;
+    }
+
+
+function makeGuess(letter) {
+    if (remainingGuesses > 0) {
+
+        //Make sure not to use this letter yet
+        //this searches for the guest letters in the array. It if returns -1, that means it is not in the array, so use push to add it. Then we pass that letter to evaluate Guess, where it futher evaluates the guess. 
+        if (guessesLetters.indexOf(letter) === -1) {
+            guessedLetters.push(letter);
+            evaulateGuess(letter);
+        }
+
+    }
+};
+
+
+
+document.onkeydown = function (event) {
+    //IF the game is finished, dump one keystroke and reset. if it is TRUE..the game is reset and it's flagged as false. 
+    if (hasFInished) {
+        resetGame();
+        hasFinished = false;
+    } else {
+        //Makes sure that a-z was pressed. Keycode has to be between 65 and 90. 65 is the key-code for "a" and 90 is the key code for "z"
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            //make guess is only for the letters. Call to lower case so that the player doesn't need to worry about caps. 
+            makeGuess(event.key.toLowerCase());
+            updateDisplay();
+            checkWin();
+            checkLoss();
+        }
+    }
+};
+
+
+body {
+    background-color: #eee;
+    padding-top: 20px;
+    font-family: Courier New, Courier, monospace;
+    color: white;
+    text-shadow: 0 0 2px black, -1px -1px 2px black, 1px 0 2px black, 1px 1px 2px black;
+    background: url('../images/bgimage.jpg') no-repeat;
+    background-size: cover;
+}
+.container { 
+    text-align: center;
+    
+}
+h1,h2,h3,
+h4,h5,h6 {
+    padding: 5px;
+    background-color: rgba(12,51,114,.6);
+}
+#title-image, #gameover-image, #youwin-image{ 
+    display: block;
+    margin: 0 auto;
+}
+
+#currentWord {
+    letter-spacing: 10px;
+}
+
+#pressKeyTryAgain, 
+#gameover-image, 
+#youwin-image { display: none;}
+.gameplay-column {
+    padding-top: 20px;
+    border: 3px dashed #fff;
+    text-align: center;
+    margin-top: 20px;
+    min-height: 500px;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+
+body {
+    font-family:'Chicle', cursive;
+    color: #008000;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQohNCVL1fEYrSWI54haowkCybobh1Zrg3lQd5xoySw02LYfZxwA");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    font-size: 60px;
+    margin-top: 0px;
+    height: 100%
+  }
+
+  document.getElementById("won").style.display = "block";
+  countDown();
+
+}
+
+
+} // end if
+else {
+incorrect = incorrect - 1;
+document.getElementById("incorrect").innerHTML = incorrect;
+if ( incorrect == 0 ) {
+//Show the Game Over div
+document.getElementById("gameover").style.display = "block";
+losses = losses + 1;
+document.getElementById("losses").innerHTML = losses;
+countDown();
+
+}
+} // end else
+
+}
+}
+}
+}
+
+function countDown() {
+var counter = 3;
+var countDown = document.getElementById("countDown");
+countDown.innerHTML = "The next round will start in 3 seconds.";
+var id;
+
+
+id = setInterval(function() {
+counter--;
+if(counter < 0) {
+countDown.innerHTML = '';
+setUpRound();
+clearInterval(id);
+} else {
+countDown.innerHTML = "The next round will start in " + counter.toString() + " seconds.";
+}
+}, 1000);
+}

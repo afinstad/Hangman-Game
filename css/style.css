@@ -1,0 +1,72 @@
+#word {
+    margin: 2em 0;
+    text-align: center;
+    color: #FF1493
+  }
+  
+  #word b {
+    visibility: hidden;
+    text-align: center;
+    color: #FF1493
+  }
+  
+  #word span {
+    display: inline-block;
+    border-bottom: 2px solid #ffff4d;
+    margin: 5px;
+    min-width: 1em;
+    text-align: center;
+  }
+  
+  #word span.yep b {
+    visibility: visible;
+    text-align: center;
+    color: #FF1493
+  }
+  
+  #word span.space {
+    border-bottom: 0;
+    text-align: center;
+    color: #FF1493
+  }
+  
+  #gameover {
+    display: none;
+    text-align: center;
+    color: #FF1493
+  }
+  
+  #won {
+    display: none;
+    text-align: center;
+    color: #FF1493
+  }
+
+  
+  body {
+    font-family: 'Varela Round', sans-serif;
+    color: #ffff4d;
+    background-image: url("https://images.pexels.com/photos/459252/pexels-photo-459252.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    font-size: 40px;
+    margin-top: 30px;
+    image-rendering: pixelated;
+    text-align: center;
+  }
+  
+  h1 { text-align: center;
+    margin-top: 200px;
+    font-size: 50px;
+  }
+      
+  h2 {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 25px;
+  }
+  
+  h3 {
+    margin-top: 50px;
+  }
