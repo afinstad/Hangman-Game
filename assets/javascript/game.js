@@ -113,20 +113,8 @@ function evalLetter() {
 
             document.getElementById("won").style.display = "block";
             countDown();
-        };
-
-
-        else {
-            incorrect = incorrect - 1;
-            document.getElementById("incorrect").innerHTML = incorrect;
-            if (incorrect == 0) {
-                //Show the Game Over div
-                document.getElementById("gameover").style.display = "block";
-                losses = losses + 1;
-                document.getElementById("losses").innerHTML = losses;
-                countDown();
-            }
-
+        }
+    }
 
             function countDown() {
                 var counter = 3;
@@ -148,6 +136,6 @@ function evalLetter() {
             };
 
         };
-    };
-};
+    
+
 
